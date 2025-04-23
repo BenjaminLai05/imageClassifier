@@ -1,14 +1,28 @@
-# 1. Choose a Python base image
-FROM python:3.12
+# Base image with Node.js (for React) and Debian (to install Python)
+FROM node:18-bullseye
 
-# 2. Set a working directory inside the container
+# Install Python and pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    pip3 install --upgrade pip
+
+# Set working directory
 WORKDIR /app
 
-# 3. Copy your project files into the container
+# --- Install Python dependencies ---
+COPY requirements.txt ./
+RUN pip3 install -r requirements.txt
+
+# --- Install React frontend dependencies ---
+# Copy only package.json and lockfile first for caching
+COPY webpage-ui/package*.json ./webpage-ui/
+RUN npm install --prefix ./webpage-ui
+
+# --- Copy full frontend and backend source code ---
 COPY . .
 
-# 4. Install Python dependencies from requirements.txt
-RUN pip install -r requirements.txt
+# Expose React development port
+EXPOSE 3000
 
-# 5. Default command (runs bash if no command provided)
-CMD ["bash"]
+# Start React app from within webpage-ui folder
+CMD ["npm", "start", "--prefix", "webpage-ui"]
