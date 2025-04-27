@@ -1,0 +1,8 @@
+/* Make the particles canvas fill the viewport and sit at the very back */
+
+#particles,           /* the div you render */
+.tsparticles {        /* the wrapper tsParticles creates */
+  position: fixed;    /* fill the viewport */
+  inset: 0;
+  z-index: -1;        /* sit underneath everything */
+}
