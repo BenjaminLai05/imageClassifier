@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['tumor']
+
+roboflow:
+  workspace: tumor-detection-1ewhv
+  project: my-first-project-x1q1y
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/tumor-detection-1ewhv/my-first-project-x1q1y/dataset/1
